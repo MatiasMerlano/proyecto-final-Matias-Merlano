@@ -1,0 +1,11 @@
+import {Router} from 'express';import db from '../db/database.js';
+const router=Router();
+router.post('/',(req,res)=>{const{name,email,message,source='website'}=req.body||{};
+ if(typeof name!=='string'||name.trim().length<2||name.trim().length>80)return res.status(400).json({message:'Escribe un nombre válido (2 a 80 caracteres).'});
+ if(typeof email!=='string'||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim()))return res.status(400).json({message:'Escribe un correo electrónico válido.'});
+ if(typeof message!=='string'||message.trim().length<5||message.trim().length>2000)return res.status(400).json({message:'El mensaje debe tener entre 5 y 2000 caracteres.'});
+ const safeSource=['portfolio','robotcare'].includes(source)?source:'website';
+ const result=db.prepare('INSERT INTO contacts(name,email,message,source) VALUES(?,?,?,?)').run(name.trim(),email.trim().toLowerCase(),message.trim(),safeSource);
+ res.status(201).json({message:'Mensaje recibido correctamente.',id:result.lastInsertRowid});
+});
+export default router;

@@ -1,0 +1,18 @@
+{
+  "name": "proyecto-final-matias-merlano",
+  "private": true,
+  "workspaces": [
+    "portfolio",
+    "robotcare",
+    "backend"
+  ],
+  "scripts": {
+    "dev:portfolio": "npm run dev --workspace portfolio",
+    "dev:robotcare": "npm run dev --workspace robotcare",
+    "dev:backend": "npm run dev --workspace backend",
+    "build": "npm run build --workspace portfolio && npm run build --workspace robotcare"
+  },
+  "allowScripts": {
+    "better-sqlite3@12.10.0": true
+  }
+}
